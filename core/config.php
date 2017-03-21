@@ -1,10 +1,10 @@
 <?php
 
 define('DB_TYPE', 'mysql');
-define('DB_HOST', '127.0.0.1:8889');
+define('DB_HOST', '127.0.0.1:3306');
 define('DB_NAME', 'lecture');
 define('DB_USER', 'root');
-define('DB_PASS', 'root');
+define('DB_PASS', '');
 define('DB_CHARSET', 'utf8');
 
 define('URL_PUBLIC_FOLDER', 'public');

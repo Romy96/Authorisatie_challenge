@@ -28,7 +28,7 @@ function deleteStudent($id)
 {
 	$db = openDatabaseConnection();
 
-	$sql = "DELETE FROM students WHERE student_id=:id ";
+	$sql = "DELETE FROM students WHERE id=:id ";
 	$query = $db->prepare($sql);
 	$query->execute(array(
 		':id' => $id
@@ -41,7 +41,7 @@ function createStudent($firstname, $lastname, $gender)
 {
 	$db = openDatabaseConnection();
 
-	$sql = "INSERT INTO students(student_firstname, student_lastname, student_gender) VALUES (:firstname, :lastname, :gender)";
+	$sql = "INSERT INTO students(firstname, lastname, gender) VALUES (:firstname, :lastname, :gender)";
 	$query = $db->prepare($sql);
 	$query->execute(array(
 		':firstname' => $firstname,
