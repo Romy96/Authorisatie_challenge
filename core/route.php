@@ -6,7 +6,7 @@ function route()
 
 	if (!$url['controller']) {
 		
-		require(ROOT . 'controller/HomeController.php');
+		require(ROOT . 'controller/' . DEFAULT_CONTROLLER . 'Controller.php');
 		call_user_func('index');
 	
 	} elseif (file_exists(ROOT . 'controller/' . $url['controller'] . '.php')) {

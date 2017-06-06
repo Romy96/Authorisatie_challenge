@@ -11,38 +11,41 @@ function index()
 
 function create()
 {
-	//formulier tonen
 	render("student/create");
 }
 
 function createSave()
 {
-
-	if (isset($_POST['firstname']) && isset($_POST['lastname']) && isset($_POST['gender'])) {
-		createStudent($_POST['firstname'], $_POST['lastname'], $_POST['gender']);
+	if (!createStudent()) {
+		header("Location:" . URL . "error/index");
+		exit();
 	}
 
 	header("Location:" . URL . "student/index");
 }
 
-function edit()
+function edit($id)
 {
-	//$student = getStudent();
-
-	// getStudent(1);
-
-	render("student/edit");	
+	render("student/edit", array(
+		'student' => getStudent($id)
+	));
 }
 
 function editSave()
 {
-	
+	if (!editStudent()) {
+		header("Location:" . URL . "error/index");
+		exit();
+	}
+
+	header("Location:" . URL . "student/index");
 } 
 
 function delete($id)
 {
-	if (isset($id)) {
-		deleteStudent($id);
+	if (!deleteStudent($id)) {
+		header("Location:" . URL . "error/index");
+		exit();
 	}
 
 	header("Location:" . URL . "student/index");
