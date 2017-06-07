@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Machine: 127.0.0.1
--- Gegenereerd op: 07 jun 2017 om 12:39
+-- Gegenereerd op: 07 jun 2017 om 13:27
 -- Serverversie: 5.6.17
 -- PHP-versie: 5.5.12
 
@@ -64,45 +64,6 @@ INSERT INTO `exam_user` (`user_id`, `exam_id`, `result`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tabelstructuur voor tabel `roles`
---
-
-CREATE TABLE IF NOT EXISTS `roles` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `role` varchar(10) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
-
---
--- Gegevens worden geëxporteerd voor tabel `roles`
---
-
-INSERT INTO `roles` (`id`, `role`) VALUES
-(1, 'student'),
-(2, 'docent');
-
--- --------------------------------------------------------
-
---
--- Tabelstructuur voor tabel `role_user`
---
-
-CREATE TABLE IF NOT EXISTS `role_user` (
-  `user_id` int(11) NOT NULL,
-  `role_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Gegevens worden geëxporteerd voor tabel `role_user`
---
-
-INSERT INTO `role_user` (`user_id`, `role_id`) VALUES
-(1, 1),
-(2, 2);
-
--- --------------------------------------------------------
-
---
 -- Tabelstructuur voor tabel `users`
 --
 
@@ -114,6 +75,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `email` varchar(250) DEFAULT NULL,
   `password` varchar(50) DEFAULT NULL,
   `abbreviation` varchar(10) DEFAULT NULL,
+  `role` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `abbreviation` (`abbreviation`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
@@ -122,9 +84,9 @@ CREATE TABLE IF NOT EXISTS `users` (
 -- Gegevens worden geëxporteerd voor tabel `users`
 --
 
-INSERT INTO `users` (`id`, `firstname`, `prefix`, `lastname`, `email`, `password`, `abbreviation`) VALUES
-(1, 'Romy', '', 'Bijkerk', 'romy-bijkerk@hotmail.com', '27fa9d3a680e68b32cfe2cd22bbdba28', NULL),
-(2, 'Peter', '', 'Snoek', 'petersnoek@davinci.nl', 'f19a86bcd60e668b1d8a2b8530f8b9f4', 'SNP');
+INSERT INTO `users` (`id`, `firstname`, `prefix`, `lastname`, `email`, `password`, `abbreviation`, `role`) VALUES
+(1, 'Romy', '', 'Bijkerk', 'romy-bijkerk@hotmail.com', '27fa9d3a680e68b32cfe2cd22bbdba28', NULL, 'Student'),
+(2, 'Peter', '', 'Snoek', 'petersnoek@davinci.nl', 'f19a86bcd60e668b1d8a2b8530f8b9f4', 'SNP', 'Docent');
 
 --
 -- Beperkingen voor geëxporteerde tabellen
