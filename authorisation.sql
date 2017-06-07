@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Machine: 127.0.0.1
--- Gegenereerd op: 07 jun 2017 om 10:26
+-- Gegenereerd op: 07 jun 2017 om 12:39
 -- Serverversie: 5.6.17
 -- PHP-versie: 5.5.12
 
@@ -29,11 +29,18 @@ SET time_zone = "+00:00";
 CREATE TABLE IF NOT EXISTS `exams` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `exam` varchar(500) DEFAULT NULL,
-  `datetime` datetime(6) DEFAULT NULL,
+  `date_time` datetime(6) DEFAULT NULL,
   `examiner` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `examiner` (`examiner`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Gegevens worden geëxporteerd voor tabel `exams`
+--
+
+INSERT INTO `exams` (`id`, `exam`, `date_time`, `examiner`) VALUES
+(1, 'Nederlands 3F lezen en luisteren ', '2017-10-12 10:30:00.000000', NULL);
 
 -- --------------------------------------------------------
 
@@ -44,8 +51,15 @@ CREATE TABLE IF NOT EXISTS `exams` (
 CREATE TABLE IF NOT EXISTS `exam_user` (
   `user_id` int(11) NOT NULL,
   `exam_id` int(11) NOT NULL,
-  `result` smallint(2) NOT NULL
+  `result` decimal(2,1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Gegevens worden geëxporteerd voor tabel `exam_user`
+--
+
+INSERT INTO `exam_user` (`user_id`, `exam_id`, `result`) VALUES
+(1, 1, '0.0');
 
 -- --------------------------------------------------------
 
@@ -70,6 +84,25 @@ INSERT INTO `roles` (`id`, `role`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Tabelstructuur voor tabel `role_user`
+--
+
+CREATE TABLE IF NOT EXISTS `role_user` (
+  `user_id` int(11) NOT NULL,
+  `role_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Gegevens worden geëxporteerd voor tabel `role_user`
+--
+
+INSERT INTO `role_user` (`user_id`, `role_id`) VALUES
+(1, 1),
+(2, 2);
+
+-- --------------------------------------------------------
+
+--
 -- Tabelstructuur voor tabel `users`
 --
 
@@ -81,21 +114,17 @@ CREATE TABLE IF NOT EXISTS `users` (
   `email` varchar(250) DEFAULT NULL,
   `password` varchar(50) DEFAULT NULL,
   `abbreviation` varchar(10) DEFAULT NULL,
-  `role` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `abbreviation` (`abbreviation`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
--- Tabelstructuur voor tabel `user_role`
+-- Gegevens worden geëxporteerd voor tabel `users`
 --
 
-CREATE TABLE IF NOT EXISTS `user_role` (
-  `user_id` int(11) NOT NULL,
-  `role_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+INSERT INTO `users` (`id`, `firstname`, `prefix`, `lastname`, `email`, `password`, `abbreviation`) VALUES
+(1, 'Romy', '', 'Bijkerk', 'romy-bijkerk@hotmail.com', '27fa9d3a680e68b32cfe2cd22bbdba28', NULL),
+(2, 'Peter', '', 'Snoek', 'petersnoek@davinci.nl', 'f19a86bcd60e668b1d8a2b8530f8b9f4', 'SNP');
 
 --
 -- Beperkingen voor geëxporteerde tabellen
