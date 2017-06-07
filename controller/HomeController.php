@@ -11,7 +11,7 @@ function login()
 {
 	if ( IsLoggedInSession()==true ) {
 		echo "U heeft al ingelogd!";
-		render("exam/index");
+		render("home/index");
 		exit();
 	}
 	else {

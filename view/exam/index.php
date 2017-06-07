@@ -8,20 +8,14 @@ if(isset($_SESSION['userId'])):
 endif;
 ?>
 
-<ul>
 <?php
 if(isset($_SESSION['exams'])):
-	if(is_array($_SESSION['exams']) || is_object($_SESSION['exams'])):
-		foreach($_SESSION['exams'] as $exam):
+	if(is_array($_SESSION['exams'])):
+		foreach($_SESSION['exams'] as $row):
 ?>
-	<li><?=$exam['exam']?> <?=$exam['datetime']?></li>
+<p><?=$row['exam']?></p>
 <?php
 		endforeach;
 	endif;
 endif;
 ?>
-
-<?php
-print_r($_SESSION['exams']);
-?>
-</ul>

@@ -35,10 +35,8 @@ function createUser($firstname = null, $prefix = null, $lastname = null, $email 
 function loginUser($email = null, $password = null)
 {
 	$db = openDatabaseConnection();
-
 	$email = $_POST['email'];
 	$password = md5($_POST['password']);
-
     $result1 = $db->prepare("SELECT * FROM users WHERE email = '$email' AND  password = '$password'");
  	$result1->execute();
  	$row = $result1->fetch(PDO::FETCH_ASSOC);
@@ -52,52 +50,36 @@ function loginUser($email = null, $password = null)
 		$_SESSION['logged in'] = true;
 		$_SESSION['email'] = $email;
 
-		$result2 = $db->prepare("SELECT role_id FROM user_role WHERE user_id=:loginid");
+		$result2 = $db->prepare("SELECT role FROM users WHERE id=:loginid");
  		$result2->execute(array(
  		':loginid' => $login_id
  		));
- 		$roles = $result2->fetchAll();
+ 		$role = $result2->fetch(PDO::FETCH_ASSOC);
 
- 		if(isset($roles)) {
-	 		foreach($roles as $row) {
-				$role_id = $row['role_id'];
-
-				$sql3 = "SELECT role FROM roles WHERE id = :roleid";
-				$query3 = $db->prepare($sql3);
-				$query3->execute(array(
-					":roleid" => $role_id
-				));
-				$rolename = $query3->fetchAll();
-				$_SESSION['roles'][] = $rolename[0]['name'];
-			}
-		}
+ 		$_SESSION['roles'][] = $role[0]['role'];
 
 		$result3 = $db->prepare("SELECT exam_id FROM exam_user WHERE user_id=:loginid");
  		$result3->execute(array(
  		':loginid' => $login_id
  		));
+
  		$exams = $result3->fetchAll();
 
  		if(isset($exams)) {
 	 		foreach($exams as $row) {
 				$exam_id = $row['exam_id'];
-
-				$sql4 = "SELECT exam, date_time, examiner FROM exams WHERE id = :examid";
+				$sql4 = "SELECT * FROM exams WHERE id = :examid";
 				$query4 = $db->prepare($sql4);
 				$query4->execute(array(
 					":examid" => $exam_id
 				));
 				$exam = $query4->fetchAll();
-				$_SESSION['exams'][] = $exam[0]['exam'];
-				$_SESSION['exams'][] = $exam[0]['date_time'];
-				$_SESSION['exams'][] = $exam[0]['examiner'];
+				$_SESSION['exams'][] = $exam;
 			}
 		}
-
 		$db = null;
 		return true;
 	}
-
 	else
 	{
 		$_SESSION['userid'] = null; 
