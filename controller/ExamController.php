@@ -197,3 +197,162 @@ function delete_student($id = '')
 		}
 	}
 }
+
+function exams()
+{
+	if ( IsLoggedInSession()==false ) {
+		echo "U bent nog niet ingelogd!";
+		render("home/login");
+		exit();
+	}
+	elseif (IsLoggedInSession()==true && IsTeacher() == false) 
+	{
+		
+		echo 'U bent geen leraar!';
+		render("exam/index");
+		exit;
+	}
+	elseif (IsLoggedInSession()==true && IsTeacher()==true) 
+	{
+		$exams = getExams();
+
+		if(empty($exams))
+		{
+			echo 'Geen examens gevonden!';
+			renderTeacher("home/index");
+			exit();
+		}
+
+		if(isset($exams))
+		{
+			renderTeacher("exam/exams", array(
+				'exams' => $exams
+			));
+		}
+	}
+}
+
+function create_exam()
+{
+	if ( IsLoggedInSession()==false ) {
+		echo "U bent nog niet ingelogd!";
+		render("home/login");
+		exit();
+	}
+	elseif (IsLoggedInSession()==true && IsTeacher() == false) 
+	{
+		
+		echo 'U bent geen leraar!';
+		render("exam/index");
+		exit;
+	}
+	elseif (IsLoggedInSession()==true && IsTeacher()==true) 
+	{
+		renderTeacher("exam/create_exam");
+	}
+}
+
+function insertExam()
+{
+	if ( IsLoggedInSession()==false ) {
+		echo "U bent nog niet ingelogd!";
+		render("home/login");
+		exit();
+	}
+	elseif (IsLoggedInSession()==true && IsTeacher() == false) 
+	{
+		
+		echo 'U bent geen leraar!';
+		render("exam/index");
+		exit;
+	}
+	elseif (IsLoggedInSession()==true && IsTeacher()==true) 
+	{
+		if (empty($_POST['exam']) || empty($_POST['datetime']) || empty($_POST['examiner'])) {
+			echo 'U heeft een veld niet ingevuld';
+			renderTeacher("exam/create_exam");
+			exit;
+		}
+
+		if (isset($_POST['exam']) && isset($_POST['datetime']) && isset($_POST['examiner'])) {
+			createExam($_POST['exam'], $_POST['datetime'], $_POST['examiner']);
+			$exams = getExams();
+			renderTeacher("exam/exams", array(
+				'exams' => $exams
+			));
+			exit;
+		}
+	}
+}
+
+function edit_exam($id = '')
+{
+	if ( IsLoggedInSession()==false ) {
+		echo "U bent nog niet ingelogd!";
+		render("home/login");
+		exit();
+	}
+	elseif (IsLoggedInSession()==true && IsTeacher() == false) 
+	{
+		
+		echo 'U bent geen leraar!';
+		render("exam/index");
+		exit;
+	}
+	elseif (IsLoggedInSession()==true && IsTeacher()==true) 
+	{
+		$exam = getExam($id);
+
+		if(empty($exam))
+		{
+			echo 'examen niet gevonden!';
+			$exams = getExams();
+			renderTeacher("exam/exams", array(
+				'exams' => $exams
+			));
+		}
+
+		if(isset($exam))
+		{
+			renderTeacher("exam/edit_exam", array(
+				'exam' => $exam
+			));
+		}
+	}
+}
+
+function saveExam($id = '')
+{
+	if ( IsLoggedInSession()==false ) {
+		echo "U bent nog niet ingelogd!";
+		render("home/login");
+		exit();
+	}
+	elseif (IsLoggedInSession()==true && IsTeacher() == false) 
+	{
+		
+		echo 'U bent geen leraar!';
+		render("exam/index");
+		exit;
+	}
+	elseif (IsLoggedInSession()==true && IsTeacher()==true) 
+	{
+		if (empty($_POST['exam']) || empty($_POST['datetime']) || empty($_POST['examiner'])) {
+			echo 'U heeft een veld niet ingevuld';
+			$exam = getExam($id);
+			renderTeacher("exam/edit_exam", array(
+				'exam' => $exam
+			));
+			exit;
+		}
+
+		if (isset($_POST['exam']) && isset($_POST['datetime']) && isset($_POST['examiner'])) {
+			editExam($id, $_POST['exam'], $_POST['datetime'], $_POST['examiner']);
+			$exams = getExams();
+			renderTeacher("exam/exams", array(
+				'exams' => $exams
+			));
+			exit;
+		}
+	}
+}

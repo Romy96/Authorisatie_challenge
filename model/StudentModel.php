@@ -231,3 +231,75 @@ function DeleteStudent($id)
 
 	$db = null;
 }
+
+function getExams()
+{
+	$db = openDatabaseConnection();
+
+	$sql = "SELECT * FROM exams";
+	$query = $db->prepare($sql);
+	$query->execute();
+
+	$db = null;
+
+	return $query->fetchAll();
+}
+
+function createExam($exam = null, $date_time = null, $examiner = null)
+{
+	$exam = isset($_POST['exam']) ? $_POST['exam'] : null;
+	$datetime = isset($_POST['datetime']) ? $_POST['datetime'] : null;
+	$examiner = isset($_POST['examiner']) ? $_POST['examiner'] : null;
+
+	$db = openDatabaseConnection();
+
+	$sql = "INSERT INTO exams (exam, date_time, examiner) VALUES (:exam, :date_time, :examiner)";
+	$query = $db->prepare($sql);
+	$query->execute(array(
+		':exam' => $exam,
+		':date_time' => $date_time,
+		':examiner' => $examiner
+	));
+
+	$db = null;
+
+	return true;
+}
+
+function getExam($id)
+{
+	$db = openDatabaseConnection();
+
+	$sql = "SELECT * FROM exams WHERE id=:id";
+	$query = $db->prepare($sql);
+	$query->execute(array(
+		':id' => $id
+	));
+
+	$db = null;
+
+	return $query->fetch(PDO::FETCH_ASSOC);	
+}
+
+function editExam($id = null, $exam = null, $date_time = null, $examiner = null)
+{
+	$exam = isset($_POST['exam']) ? $_POST['exam'] : null;
+	$datetime = isset($_POST['datetime']) ? $_POST['datetime'] : null;
+	$examiner = isset($_POST['examiner']) ? $_POST['examiner'] : null;
+	$id = isset($_POST['id']) ? $_POST['id'] : null;
+
+	$db = openDatabaseConnection();
+
+	$sql = "UPDATE exams SET exam=:exam, date_time=:date_time, examiner=:examiner WHERE id=:id";
+	$query = $db->prepare($sql);
+	$query->execute(array(
+		':exam' => $exam,
+		':date_time' => $date_time,
+		':examiner' => $examiner,
+		':id' => $id
+	));
+
+	$db = null;
+
+	return true;
+}

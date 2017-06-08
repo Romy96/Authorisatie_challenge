@@ -86,6 +86,7 @@
 			?>
             <li><a href="<?= URL ?>home/logOut"><i class="fa fa-sign-out" aria-hidden="true"></i>Uitloggen</a></li>
             <li><a href="<?= URL ?>exam/students">Studenten</a></li>
+            <li><a href="<?= URL ?>exam/exams">Examens</a></li>
             <?php
             endif;
             ?>
