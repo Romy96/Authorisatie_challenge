@@ -303,3 +303,4 @@ function editExam($id = null, $exam = null, $date_time = null, $examiner = null)
 
 	return true;
 }
+
