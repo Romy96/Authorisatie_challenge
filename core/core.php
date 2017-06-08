@@ -23,3 +23,17 @@ function render($filename, $data = null)
 	require(ROOT . 'view/' . $filename . '.php');
 	require(ROOT . 'view/templates/footer.php');
 }
+
+function renderTeacher($filename, $data = null)
+{
+	if ($data) {
+
+		foreach($data as $key => $value) {
+			$$key = $value;
+		}
+	} 
+
+	require(ROOT . 'view/templates/headerTeacher.php');
+	require(ROOT . 'view/' . $filename . '.php');
+	require(ROOT . 'view/templates/footerTeacher.php');
+}

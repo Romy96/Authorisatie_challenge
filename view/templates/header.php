@@ -16,17 +16,6 @@
 		?>
 		<li><a href="<?= URL ?>exam/logOut"><i class="fa fa-sign-out" aria-hidden="true"></i> Uitloggen </a></li>
 		<?php
-		if(isset($_SESSION['roles'])):
-			if (is_array($_SESSION['roles'])):
-				if($_SESSION['roles'][0] = "Docent"):
-		?>
-		<li><a href="<?= URL ?>exam/students">Studenten</a></li>
-		<?php
-				endif;
-			endif;
-		endif;
-		?>
-		<?php
 		; else:
 		?>
 		<li><a href="<?= URL ?>home/register">Registreer</a></li>

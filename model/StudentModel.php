@@ -102,11 +102,11 @@ function IsLoggedInSession() {
 }
 
 function IsStudent() {
-	return (!empty($_SESSION['roles']) && $_SESSION['roles'][0] == "student");
+	return (!empty($_SESSION['roles']) && $_SESSION['roles'][0] == "Student");
 }
 
 function IsTeacher() {
-	return (!empty($_SESSION['roles']) && $_SESSION['roles'][0] == "docent");
+	return (!empty($_SESSION['roles']) && $_SESSION['roles'][0] == "Docent");
 }
 
 function getUser($id) 
@@ -132,3 +132,102 @@ function LogOut() {
 	$_SESSION = [];
 }
 
+function getStudents()
+{
+	$db = openDatabaseConnection();
+
+	$sql = "SELECT * FROM users WHERE role = 'Student'";
+	$query = $db->prepare($sql);
+	$query->execute();
+
+	$db = null;
+
+	return $query->fetchAll();
+}
+
+function getStudent($id)
+{
+	$db = openDatabaseConnection();
+
+	$sql = "SELECT * FROM users WHERE role = 'Student' AND id=:id";
+	$query = $db->prepare($sql);
+	$query->execute(array(
+		':id' => $id
+	));
+
+	$db = null;
+
+	return $query->fetch(PDO::FETCH_ASSOC);
+}
+
+function createStudent($firstname = null, $prefix = null, $lastname = null, $email = null, $password = null, $role = null)
+{
+	$firstname = isset($_POST['firstname']) ? $_POST['firstname'] : null;
+	$prefix = isset($_POST['prefix']) ? $_POST['prefix'] : null;
+	$lastname = isset($_POST['lastname']) ? $_POST['lastname'] : null;
+	$email = isset($_POST['email']) ? $_POST['email'] : null;
+	$password = isset($_POST['password']) ? $_POST['password'] : null;
+	$hash = md5($password);
+	$role = isset($_POST['role']) ? $_POST['role'] : null;
+	
+	if (strlen($firstname) == 0 || strlen($lastname) == 0 || strlen($email) == 0 || strlen($password) == 0 || strlen($role) == 0) {
+		return false;
+	}
+	
+	$db = openDatabaseConnection();
+
+
+	$sql = "INSERT INTO users(firstname, prefix, lastname, email, password, role) VALUES (:firstname, :prefix, :lastname, :email, :password, :role)";
+	$query = $db->prepare($sql);
+	$query->execute(array(
+		':firstname' => $firstname,
+		':prefix' => $prefix,
+		':lastname' => $lastname,
+		':email' => $email,
+		':password' => $hash,
+		':role' => $role
+	));
+
+	$db = null;
+	
+	return true;
+}
+
+function editStudent($id = null, $firstname = null, $prefix = null, $lastname = null, $email = null)
+{
+	$firstname = isset($_POST['firstname']) ? $_POST['firstname'] : null;
+	$prefix = isset($_POST['prefix']) ? $_POST['prefix'] : null;
+	$lastname = isset($_POST['lastname']) ? $_POST['lastname'] : null;
+	$email = isset($_POST['email']) ? $_POST['email'] : null;
+	$id = isset($_POST['id']) ? $_POST['id'] : null;
+
+	$db = openDatabaseConnection();
+
+	$sql = "UPDATE users SET firstname=:firstname, prefix=:prefix, lastname=:lastname, email=:email WHERE id=:id";
+	$query = $db->prepare($sql);
+	$query->execute(array(
+		':firstname' => $firstname,
+		':prefix' => $prefix,
+		':lastname' => $lastname,
+		':email' => $email,
+		':id' => $id
+	));
+
+	$db = null;
+	
+	return true;
+}
+
+function DeleteStudent($id)
+{
+	// Maak connectie met database
+	$db = openDatabaseConnection();
+	// schrijf een query en voer het uit
+	$sql = "DELETE FROM users WHERE id=:id";
+	$query = $db->prepare($sql);
+	$query->execute(array(
+		':id' => $id
+	));
+
+	$db = null;
+}
