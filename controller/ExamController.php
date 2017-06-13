@@ -1,12 +1,15 @@
 <?php
 
 require(ROOT . "model/StudentModel.php");
+require(ROOT . "model/ExamModel.php");
 
 function index($id = '')
 {
 	if (IsLoggedInSession()==true && IsTeacher() == false) 
 	{
-		render("exam/index");
+		render("exam/index", array(
+			'exams' => getExamsForStudent()
+			) );
 	}
 	elseif (IsLoggedInSession()==true && IsTeacher()==true) 
 	{
